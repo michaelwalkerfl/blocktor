@@ -7,7 +7,8 @@ apt-get install -y ipset
 > Usage
 ```
 chmod +x blocktor.sh
-sudo ./blocktor.sh
+sudo ./blocktor.sh --start
+sudo ./blocktor.sh --remove
 ```
 > Add to root crontab (sudo crontab -e):
 ```
