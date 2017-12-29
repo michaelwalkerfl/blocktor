@@ -1,5 +1,5 @@
 # blocktor
-## Block all Tor connection from accessing your webserver
+## Block all Tor Network from accessing your webserver
 > Need ipset:
 ```
 apt-get install -y ipset
