@@ -4,6 +4,11 @@
 ```
 apt-get install -y ipset
 ```
+> Usage
+```
+chmod +x blocktor.sh
+sudo ./blocktor.sh
+```
 > Add to root crontab (sudo crontab -e):
 ```
 @reboot /path/to/blocktor.sh;
