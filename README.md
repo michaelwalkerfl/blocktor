@@ -12,6 +12,6 @@ sudo ./blocktor.sh --remove
 ```
 > Add to root crontab (sudo crontab -e):
 ```
-@reboot /path/to/blocktor.sh;
-0 0 0 * * * /path/to/blocktor.sh
+@reboot /path/to/blocktor.sh --start
+0 0 * * * /path/to/blocktor.sh --start
 ```
