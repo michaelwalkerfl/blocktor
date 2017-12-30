@@ -1,5 +1,4 @@
-#!/bin/bash 
-PATH=/usr/bin:/bin
+#!/bin/bash
 
 checkroot() {
 if [[ "$(id -u)" -ne 0 ]]; then
@@ -25,19 +24,19 @@ do
 /sbin/ipset -q -A tor $IP
 done
 if [ ! -d "/etc/iptables" ]; then
-mkdir "/etc/iptables"
+/bin/mkdir "/etc/iptables"
 /sbin/ipset -q save -f /etc/iptables/ipset.rules
 printf "Done (saved: /etc/iptables/ipset.rules\n"
 fi
 /sbin/ipset -q save -f /etc/iptables/ipset.rules
 printf "Done (saved: /etc/iptables/ipset.rules\n"
 printf "Configuring iptables..."
-checkiptables=$(iptables --list | grep "tor src")
+checkiptables=$(/sbin/iptables --list | /bin/grep -o "tor src")
 if [[ $checkiptables == "" ]]; then
 /sbin/iptables -A INPUT -m set --match-set tor src -j DROP;
 fi
 if [ ! -e "/etc/iptables/rules.v4" ]; then
-touch "/etc/iptables/rules.v4"
+/usr/bin/touch "/etc/iptables/rules.v4"
 /sbin/iptables-save > /etc/iptables/rules.v4
 printf "Done (saved: /etc/iptables/rules.v4\n"
 else
