@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/bash -x
+PATH=/usr/bin:/bin
+
 checkroot() {
 if [[ "$(id -u)" -ne 0 ]]; then
     printf "Run this program as root!\n"
@@ -8,7 +10,7 @@ fi
 start() {
 
 checkroot
-declare -a dependencies=("ipset");
+declare -a dependencies=("/sbin/ipset");
 for package in "${dependencies[@]}"; do
    if ! hash "$package" 2> /dev/null; then
      printf "'$package' isn't installed. apt-get install -y '$package'\n";
@@ -17,36 +19,36 @@ for package in "${dependencies[@]}"; do
 done
 YOUR_IP=$(curl -s ifconfig.me)
 printf "Configuring ipset..."
-ipset -q -N tor iphash
+/sbin/ipset -q -N tor iphash
 wget -q https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=$YOUR_IP -O - | sed '/^#/d' | while read IP
 do
-ipset -q -A tor $IP
+/sbin/ipset -q -A tor $IP
 done
 if [ ! -d "/etc/iptables" ]; then
 mkdir "/etc/iptables"
-ipset -q save -f /etc/iptables/ipset.rules
+/sbin/ipset -q save -f /etc/iptables/ipset.rules
 printf "Done (saved: /etc/iptables/ipset.rules\n"
 fi
-ipset -q save -f /etc/iptables/ipset.rules
+/sbin/ipset -q save -f /etc/iptables/ipset.rules
 printf "Done (saved: /etc/iptables/ipset.rules\n"
 printf "Configuring iptables..."
 checkiptables=$(iptables --list | grep "tor src")
 if [[ $checkiptables == "" ]]; then
-iptables -A INPUT -m set --match-set tor src -j DROP;
+/sbin/iptables -A INPUT -m set --match-set tor src -j DROP;
 fi
 if [ ! -e "/etc/iptables/rules.v4" ]; then
 touch "/etc/iptables/rules.v4"
-iptables-save > /etc/iptables/rules.v4
+/sbin/iptables-save > /etc/iptables/rules.v4
 printf "Done (saved: /etc/iptables/rules.v4\n"
 else
-iptables-save > /etc/iptables/rules.v4
+/sbin/iptables-save > /etc/iptables/rules.v4
 printf "Done (saved: /etc/iptables/rules.v4\n"
 fi
 }
 remove() {
 checkroot
-iptables -D INPUT -m set --match-set tor src -j DROP
-ipset destroy tor
+/sbin/iptables -D INPUT -m set --match-set tor src -j DROP
+/sbin/ipset destroy tor
 printf "Rules removed\n"
 }
 
