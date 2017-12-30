@@ -19,7 +19,7 @@ done
 YOUR_IP=$(curl -s ifconfig.me)
 printf "Configuring ipset..."
 /sbin/ipset -q -N tor iphash
-wget -q https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=$YOUR_IP -O - | sed '/^#/d' | while read IP
+wget -q https://check.torproject.org/cgi-bin/TorBulkExitList.py?ip=$YOUR_IP -O - | /bin/sed '/^#/d' | while read IP
 do
 /sbin/ipset -q -A tor $IP
 done
