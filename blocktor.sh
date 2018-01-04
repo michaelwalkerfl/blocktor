@@ -1,5 +1,5 @@
 #!/bin/bash
-
+# @thelinuxchoice
 checkroot() {
 if [[ "$(id -u)" -ne 0 ]]; then
     printf "Run this program as root!\n"
@@ -38,20 +38,20 @@ fi
 if [ ! -e "/etc/iptables/rules.v4" ]; then
 /usr/bin/touch "/etc/iptables/rules.v4"
 /sbin/iptables-save > /etc/iptables/rules.v4
-printf "Done (saved: /etc/iptables/rules.v4\n"
+printf "Done (saved: /etc/iptables/rules.v4)\n"
 else
 /sbin/iptables-save > /etc/iptables/rules.v4
-printf "Done (saved: /etc/iptables/rules.v4\n"
+printf "Done (saved: /etc/iptables/rules.v4)\n"
 fi
 }
-remove() {
+stop() {
 checkroot
 /sbin/iptables -D INPUT -m set --match-set tor src -j DROP
 /sbin/ipset destroy tor
-printf "Rules removed\n"
+printf "Blocktor stopped,rules removed\n"
 }
 
-case "$1" in --start) start ;; --remove) remove ;; *)
-printf "Usage: sudo ./blocktor.sh --start / --remove\n"
+case "$1" in --start) start ;; --stop) stop ;; *)
+printf "Usage: sudo ./blocktor.sh --start / --stop\n"
 exit 1
 esac
