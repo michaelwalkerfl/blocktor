@@ -15,3 +15,7 @@ sudo ./blocktor.sh --stop
 @reboot /path/to/blocktor.sh --start
 0 0 * * * /path/to/blocktor.sh --start
 ```
+### Donate!
+Support the authors:
+
+<noscript><a href="https://liberapay.com/thelinuxchoice/donate"><img alt="Donate using Liberapay" src="https://liberapay.com/assets/widgets/donate.svg"></a></noscript>
